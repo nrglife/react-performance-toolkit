@@ -1,9 +1,14 @@
+import { Container, Typography, Alert } from '@mui/material';
+
 export default function MemoDemo() {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Memoization Demo</h1>
-      <p>Coming soon in Phase 2!</p>
-      <p>This demo will show React.memo, useMemo, and useCallback in action.</p>
-    </div>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Memoization Demo
+      </Typography>
+      <Alert severity="info" sx={{ mt: 2 }}>
+        Coming soon in Phase 2! This demo will show React.memo, useMemo, and useCallback in action.
+      </Alert>
+    </Container>
   );
 }

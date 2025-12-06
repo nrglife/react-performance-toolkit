@@ -1,62 +1,63 @@
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardActionArea,
+  Chip,
+  Box,Grid
+} from '@mui/material';
 import { demos } from '../utils/demoConfig';
 
 export default function Home() {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>React Performance Toolkit</h1>
-      <p>Interactive demos showcasing modern React performance optimization techniques</p>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h3" component="h1" gutterBottom>
+          React Performance Toolkit
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          Interactive demos showcasing modern React performance optimization techniques
+        </Typography>
+      </Box>
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '1.5rem',
-          marginTop: '2rem',
-        }}
-      >
+      <Grid container spacing={3}>
         {demos.map((demo) => (
-          <Link
-            key={demo.id}
-            to={demo.route}
-            style={{
-              textDecoration: 'none',
-              color: 'inherit',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-              padding: '1.5rem',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-            }}
-          >
-            <h3>{demo.title}</h3>
-            <p style={{ color: '#666', fontSize: '0.9rem' }}>{demo.description}</p>
-            <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {demo.tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    fontSize: '0.75rem',
-                    padding: '0.25rem 0.5rem',
-                    backgroundColor: '#e3f2fd',
-                    color: '#1976d2',
-                    borderRadius: '4px',
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </Link>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={demo.id}>
+            <Card
+              sx={{
+                height: '100%',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: 4,
+                },
+              }}
+            >
+              <CardActionArea
+                component={RouterLink}
+                to={demo.route}
+                sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+              >
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6" component="h2" gutterBottom>
+                    {demo.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" paragraph>
+                    {demo.description}
+                  </Typography>
+                  <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap', mt: 2 }}>
+                    {demo.tags.map((tag) => (
+                      <Chip key={tag} label={tag} size="small" color="primary" variant="outlined" />
+                    ))}
+                  </Box>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }

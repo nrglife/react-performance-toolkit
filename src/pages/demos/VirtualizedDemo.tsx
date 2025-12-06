@@ -1,9 +1,15 @@
+import { Container, Typography, Alert } from '@mui/material';
+
 export default function VirtualizedDemo() {
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Virtualized List Demo</h1>
-      <p>Coming soon in Phase 2!</p>
-      <p>This demo will show how react-window handles large lists efficiently.</p>
-    </div>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Typography variant="h4" component="h1" gutterBottom>
+        Virtualized List Demo
+      </Typography>
+      <Alert severity="info" sx={{ mt: 2 }}>
+        Coming soon in Phase 2! This demo will show how react-window handles large lists
+        efficiently.
+      </Alert>
+    </Container>
   );
 }
