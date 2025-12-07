@@ -1,0 +1,1 @@
+import{r as e}from"./index-LJkoxkjh.js";function f(){const[s,o]=e.useState(null),[r,a]=e.useState(!0),[n,c]=e.useState(null);return e.useEffect(()=>{fetch("/mockData.json").then(t=>t.json()).then(t=>{o(t),a(!1)}).catch(t=>{c(t),a(!1)})},[]),{data:s,loading:r,error:n}}export{f as u};
