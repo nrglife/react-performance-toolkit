@@ -17,8 +17,15 @@ export function useMockData() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch('/mockData.json')
-      .then((res) => res.json())
+    // Use Vite's BASE_URL to handle GitHub Pages base path
+    const baseUrl = import.meta.env.BASE_URL;
+    fetch(`${baseUrl}mockData.json`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Failed to fetch mockData.json: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then((json) => {
         setData(json);
         setLoading(false);

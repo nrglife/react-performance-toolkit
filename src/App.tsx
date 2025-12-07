@@ -15,7 +15,7 @@ const VirtualizedDemo = lazy(() => import('./pages/demos/VirtualizedDemo'));
 function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <AppBar />
           <Box component="main" sx={{ flexGrow: 1 }}>
