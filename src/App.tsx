@@ -11,6 +11,7 @@ const TransitionDemo = lazy(() => import('./pages/demos/TransitionDemo'));
 const DeferredDemo = lazy(() => import('./pages/demos/DeferredDemo'));
 const MemoDemo = lazy(() => import('./pages/demos/MemoDemo'));
 const VirtualizedDemo = lazy(() => import('./pages/demos/VirtualizedDemo'));
+const LazyImagesDemo = lazy(() => import('./pages/demos/LazyImagesDemo'));
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/demos/deferred" element={<DeferredDemo />} />
                 <Route path="/demos/memo" element={<MemoDemo />} />
                 <Route path="/demos/virtualized" element={<VirtualizedDemo />} />
+                <Route path="/demos/lazy-images" element={<LazyImagesDemo />} />
               </Routes>
             </Suspense>
           </Box>

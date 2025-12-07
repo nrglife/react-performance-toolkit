@@ -50,6 +50,18 @@ export const demos: DemoMetadata[] = [
     hasMetrics: true,
     hasSettings: true,
   },
+  {
+    id: 'lazy-images',
+    title: 'Lazy Loading Images',
+    description: 'Load images on-demand with IntersectionObserver for better performance',
+    route: '/demos/lazy-images',
+    icon: 'Image',
+    tags: ['Lazy Loading', 'Performance', 'Images'],
+    difficulty: 'beginner',
+    hasBaseline: true,
+    hasMetrics: true,
+    hasSettings: false,
+  },
   // More demos will be added in later phases
 ];
 
