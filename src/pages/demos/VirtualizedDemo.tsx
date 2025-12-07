@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useTransition } from 'react';
 import { FixedSizeList } from 'react-window';
 import {
   Box,
@@ -52,10 +52,10 @@ export default function VirtualizedDemo() {
   const [listSize, setListSize] = useState<'small' | 'medium' | 'large'>('medium');
   const [renderTime, setRenderTime] = useState(0);
   const [scrollCount, setScrollCount] = useState(0);
+  const [isPending, startTransition] = useTransition();
 
   // Select data based on list size
   const items = useMemo(() => {
-    const startTime = performance.now();
     let result: any[] = [];
     if (!data) return result;
 
@@ -73,10 +73,18 @@ export default function VirtualizedDemo() {
         result = data.medium || [];
     }
 
-    const endTime = performance.now();
-    setRenderTime(endTime - startTime);
     return result;
   }, [data, listSize]);
+
+  // Measure render time after DOM updates
+  useEffect(() => {
+    const startTime = performance.now();
+    // Use requestAnimationFrame to measure after paint
+    requestAnimationFrame(() => {
+      const endTime = performance.now();
+      setRenderTime(endTime - startTime);
+    });
+  }, [items, useVirtualization]);
 
   // Calculate estimated memory usage (rough estimate)
   const estimatedMemory = useMemo(() => {
@@ -193,8 +201,11 @@ function VirtualizedList({ items }) {
         <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
           🎯 Try This: Change list size and toggle virtualization
         </Typography>
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ mb: 1 }}>
           Watch the DOM node counter to see the massive difference! Virtualized lists render only ~30 nodes regardless of list size.
+        </Typography>
+        <Typography variant="body2" sx={{ fontStyle: 'italic', fontSize: '0.875rem' }}>
+          💡 Notice: When switching to non-virtualized mode, a loading spinner appears. This demo uses <strong>useTransition</strong> to keep the UI responsive while rendering thousands of DOM nodes!
         </Typography>
       </Alert>
 
@@ -207,7 +218,19 @@ function VirtualizedList({ items }) {
                 control={
                   <Switch
                     checked={useVirtualization}
-                    onChange={(e) => setUseVirtualization(e.target.checked)}
+                    onChange={(e) => {
+                      const willBeVirtualized = e.target.checked;
+                      // Only use transition when switching TO non-virtualized (expensive operation)
+                      if (!willBeVirtualized) {
+                        startTransition(() => {
+                          setUseVirtualization(false);
+                        });
+                      } else {
+                        // Instant switch when enabling virtualization (cheap operation)
+                        setUseVirtualization(true);
+                      }
+                    }}
+                    disabled={isPending}
                   />
                 }
                 label={
@@ -215,6 +238,7 @@ function VirtualizedList({ items }) {
                     <Typography variant="body2">
                       {useVirtualization ? '✅ Virtualization ON' : '❌ Virtualization OFF'}
                     </Typography>
+                    {isPending && <CircularProgress size={16} sx={{ ml: 1 }} />}
                   </Box>
                 }
               />
@@ -226,8 +250,25 @@ function VirtualizedList({ items }) {
                 <ToggleButtonGroup
                   value={listSize}
                   exclusive
-                  onChange={(_, value) => value && setListSize(value)}
+                  onChange={(_, value) => {
+                    if (value) {
+                      const sizeMap = { small: 1000, medium: 10000, large: 100000 };
+                      const currentSize = sizeMap[listSize];
+                      const newSize = sizeMap[value as keyof typeof sizeMap];
+
+                      // Only use transition when increasing size or when not virtualized
+                      if (!useVirtualization || newSize > currentSize) {
+                        startTransition(() => {
+                          setListSize(value);
+                        });
+                      } else {
+                        // Instant switch when decreasing size with virtualization
+                        setListSize(value);
+                      }
+                    }
+                  }}
                   size="small"
+                  disabled={isPending}
                 >
                   <ToggleButton value="small">
                     1K
@@ -305,7 +346,31 @@ function VirtualizedList({ items }) {
       </Alert>
 
       {/* List Display */}
-      <Box sx={{ mb: 3 }}>
+      <Box sx={{ mb: 3, position: 'relative' }}>
+        {isPending && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              bgcolor: 'rgba(0, 0, 0, 0.1)',
+              zIndex: 10,
+              borderRadius: 1,
+            }}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <CircularProgress size={60} />
+              <Typography variant="body2" sx={{ mt: 2 }}>
+                Rendering {items.length.toLocaleString()} items...
+              </Typography>
+            </Box>
+          </Box>
+        )}
         {useVirtualization ? (
           <Box id="virtualized-list" sx={{ border: 1, borderColor: 'divider', borderRadius: 1 }}>
             <FixedSizeList
@@ -359,6 +424,55 @@ function VirtualizedList({ items }) {
             ))}
           </Box>
         )}
+      </Box>
+
+      <Divider sx={{ my: 4 }} />
+
+      {/* useTransition Explanation */}
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h6" gutterBottom>
+          🔄 Bonus: useTransition in Action
+        </Typography>
+        <Alert severity="success" sx={{ mb: 2 }}>
+          <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
+            This demo uses useTransition to keep the UI responsive!
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            When you switch to non-virtualized mode or increase list size, the UI could freeze while rendering thousands of DOM nodes. Instead, we wrap expensive operations in <code>startTransition()</code> to show a loading spinner and keep controls responsive.
+          </Typography>
+          <Typography variant="body2">
+            Notice: Switching back to virtualized mode is instant (no spinner) because it's a cheap operation. This is smart optimization - only use transitions for expensive work!
+          </Typography>
+        </Alert>
+        <CodeBlock
+          title="Smart useTransition - Only for Expensive Operations"
+          code={`import { useTransition } from 'react';
+
+function VirtualizedDemo() {
+  const [isPending, startTransition] = useTransition();
+  const [useVirtualization, setUseVirtualization] = useState(true);
+
+  const handleToggle = (willBeVirtualized) => {
+    if (!willBeVirtualized) {
+      // Expensive: Rendering 10,000 DOM nodes
+      startTransition(() => {
+        setUseVirtualization(false);
+      });
+    } else {
+      // Cheap: Switching to ~30 nodes - no transition needed
+      setUseVirtualization(true);
+    }
+  };
+
+  return (
+    <>
+      {isPending && <LoadingSpinner />}
+      {/* ... */}
+    </>
+  );
+}`}
+          language="typescript"
+        />
       </Box>
 
       <Divider sx={{ my: 4 }} />
