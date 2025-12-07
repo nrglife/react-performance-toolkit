@@ -62,6 +62,18 @@ export const demos: DemoMetadata[] = [
     hasMetrics: true,
     hasSettings: false,
   },
+  {
+    id: 'suspense',
+    title: 'Suspense Demo',
+    description: 'Handle async data loading declaratively with React Suspense',
+    route: '/demos/suspense',
+    icon: 'HourglassEmpty',
+    tags: ['React 18', 'Suspense', 'Async'],
+    difficulty: 'intermediate',
+    hasBaseline: false,
+    hasMetrics: false,
+    hasSettings: false,
+  },
   // More demos will be added in later phases
 ];
 

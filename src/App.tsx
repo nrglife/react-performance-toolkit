@@ -12,6 +12,7 @@ const DeferredDemo = lazy(() => import('./pages/demos/DeferredDemo'));
 const MemoDemo = lazy(() => import('./pages/demos/MemoDemo'));
 const VirtualizedDemo = lazy(() => import('./pages/demos/VirtualizedDemo'));
 const LazyImagesDemo = lazy(() => import('./pages/demos/LazyImagesDemo'));
+const SuspenseDemo = lazy(() => import('./pages/demos/SuspenseDemo'));
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/demos/memo" element={<MemoDemo />} />
                 <Route path="/demos/virtualized" element={<VirtualizedDemo />} />
                 <Route path="/demos/lazy-images" element={<LazyImagesDemo />} />
+                <Route path="/demos/suspense" element={<SuspenseDemo />} />
               </Routes>
             </Suspense>
           </Box>
