@@ -113,15 +113,22 @@ const MemoizedChild = memo(function MemoizedChild({ onClick, message }: { onClic
 function ExpensiveComponent({ count, useMemoization }: { count: number; useMemoization: boolean }) {
   const calcCountRef = useMemo(() => ({ count: 0 }), []);
 
-  const expensiveValue = useMemoization
-    ? useMemo(() => {
-        calcCountRef.count++;
-        return expensiveCalculation(count);
-      }, [count])
-    : (() => {
-        calcCountRef.count++;
-        return expensiveCalculation(count);
-      })();
+  // Always call useMemo (Rules of Hooks), but conditionally use its result
+  const memoizedValue = useMemo(() => {
+    calcCountRef.count++;
+    return expensiveCalculation(count);
+  }, [count]);
+
+  // If useMemoization is off, recalculate on every render
+  const unmemoizedValue = (() => {
+    if (!useMemoization) {
+      calcCountRef.count++;
+      return expensiveCalculation(count);
+    }
+    return 0; // Not used
+  })();
+
+  const expensiveValue = useMemoization ? memoizedValue : unmemoizedValue;
 
   return (
     <Card variant="outlined">
