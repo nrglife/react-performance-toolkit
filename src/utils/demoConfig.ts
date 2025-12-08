@@ -74,6 +74,18 @@ export const demos: DemoMetadata[] = [
     hasMetrics: false,
     hasSettings: false,
   },
+  {
+    id: 'visualizer',
+    title: 'Re-render Visualizer',
+    description: 'Visualize WHY React components re-render with flash effects and counters',
+    route: '/demos/visualizer',
+    icon: 'Visibility',
+    tags: ['Re-renders', 'Debugging', 'Optimization'],
+    difficulty: 'beginner',
+    hasBaseline: false,
+    hasMetrics: true,
+    hasSettings: false,
+  },
   // More demos will be added in later phases
 ];
 
