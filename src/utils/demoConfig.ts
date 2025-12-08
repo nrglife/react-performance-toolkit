@@ -86,6 +86,30 @@ export const demos: DemoMetadata[] = [
     hasMetrics: true,
     hasSettings: false,
   },
+  {
+    id: 'profiler',
+    title: 'React Profiler',
+    description: 'Measure component render performance with React Profiler API',
+    route: '/demos/profiler',
+    icon: 'Speed',
+    tags: ['Profiling', 'Performance', 'Metrics'],
+    difficulty: 'intermediate',
+    hasBaseline: false,
+    hasMetrics: true,
+    hasSettings: false,
+  },
+  {
+    id: 'web-worker',
+    title: 'Web Worker Demo',
+    description: 'Offload expensive calculations to Web Workers to keep UI responsive',
+    route: '/demos/web-worker',
+    icon: 'WorkOutline',
+    tags: ['Web Workers', 'Performance', 'Threading'],
+    difficulty: 'advanced',
+    hasBaseline: true,
+    hasMetrics: true,
+    hasSettings: false,
+  },
   // More demos will be added in later phases
 ];
 
