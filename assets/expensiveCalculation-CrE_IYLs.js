@@ -1,0 +1,1 @@
+function o(n){let t=n;for(let e=0;e<1e5;e++)t=Math.sqrt(t+e)*Math.sin(e);return t}function a(n,t){const e=performance.now();for(;performance.now()-e<1;);return n.filter(r=>r.name.toLowerCase().includes(t.toLowerCase()))}export{o as a,a as e};
