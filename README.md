@@ -185,21 +185,47 @@ This project demonstrates:
 - ✅ User-focused design with educational value
 - ✅ Production deployment experience
 
-## 🔮 Roadmap
+### 5 Expansion Demos (v2.0.0)
 
-### v2.0 - Expansion (Planned)
-- Lazy image loading demo
-- Suspense demo (TanStack Query + Pure React)
-- Re-render visualizer
-- React Profiler integration
-- Web Worker demo
+#### 5. **Lazy Loading Images Demo**
+- IntersectionObserver-based lazy loading
+- Placeholder to image transition
+- Grid of 50+ images demonstrating on-demand loading
+- Performance benefits explanation
+
+#### 6. **Suspense Demo**
+- Side-by-side comparison: TanStack Query vs Pure React Suspense
+- wrapPromise pattern demonstration
+- Suspense boundaries with fallback UI
+- Educational comparison of both approaches
+
+#### 7. **Re-render Visualizer Demo**
+- Visual flash effects on component re-renders
+- Render count tracking
+- Three re-render triggers: state, props, context
+- Isolated component demonstrations
+
+#### 8. **React Profiler Demo**
+- Real-time render performance metrics
+- Mount vs update phase comparison
+- Duration tracking with color-coded chips
+- Summary statistics and insights
+- Educational content about profiling in production
+
+#### 9. **Web Worker Demo**
+- Main thread vs Web Worker comparison
+- Visual UI responsiveness indicator (rotating spinner)
+- Fibonacci calculator demonstrating CPU-intensive work
+- Clear demonstration of UI blocking vs non-blocking
+
+## 🔮 Roadmap
 
 ### v3.0 - Polish (Planned)
 - Performance comparison dashboard
 - Technique comparison matrix
-- Comprehensive documentation
-- Visual diagrams
+- Comprehensive documentation with diagrams
 - Full test coverage
+- CI/CD pipeline
 
 See [tasks.md](.kiro/specs/react-performance-toolkit/tasks.md) for detailed implementation plan.
 
