@@ -4,6 +4,7 @@ import { ThemeProvider } from './theme/ThemeContext';
 import AppBar from './components/layout/AppBar';
 import Home from './pages/Home';
 import PageLoader from './components/shared/PageLoader';
+import ErrorBoundary from './components/shared/ErrorBoundary';
 import { Box } from '@mui/material';
 
 // Lazy load demo pages for code splitting
@@ -24,20 +25,23 @@ function App() {
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
           <AppBar />
           <Box component="main" sx={{ flexGrow: 1 }}>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/demos/transition" element={<TransitionDemo />} />
-                <Route path="/demos/deferred" element={<DeferredDemo />} />
-                <Route path="/demos/memo" element={<MemoDemo />} />
-                <Route path="/demos/virtualized" element={<VirtualizedDemo />} />
-                <Route path="/demos/lazy-images" element={<LazyImagesDemo />} />
-                <Route path="/demos/suspense" element={<SuspenseDemo />} />
-                <Route path="/demos/visualizer" element={<VisualizerDemo />} />
-                <Route path="/demos/profiler" element={<ProfilerDemo />} />
-                <Route path="/demos/web-worker" element={<WebWorkerDemo />} />
-              </Routes>
-            </Suspense>
+            {/* Error Boundary wraps all routes to catch errors in any demo */}
+            <ErrorBoundary>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/demos/transition" element={<TransitionDemo />} />
+                  <Route path="/demos/deferred" element={<DeferredDemo />} />
+                  <Route path="/demos/memo" element={<MemoDemo />} />
+                  <Route path="/demos/virtualized" element={<VirtualizedDemo />} />
+                  <Route path="/demos/lazy-images" element={<LazyImagesDemo />} />
+                  <Route path="/demos/suspense" element={<SuspenseDemo />} />
+                  <Route path="/demos/visualizer" element={<VisualizerDemo />} />
+                  <Route path="/demos/profiler" element={<ProfilerDemo />} />
+                  <Route path="/demos/web-worker" element={<WebWorkerDemo />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
           </Box>
         </Box>
       </BrowserRouter>

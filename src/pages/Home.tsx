@@ -9,6 +9,7 @@ import {
   Box,Grid
 } from '@mui/material';
 import { demos } from '../utils/demoConfig';
+import ErrorTester from '../components/shared/ErrorTester';
 
 export default function Home() {
   return (
@@ -21,6 +22,9 @@ export default function Home() {
           Interactive demos showcasing modern React performance optimization techniques
         </Typography>
       </Box>
+
+      {/* Error Boundary Tester - Development Only */}
+      {import.meta.env.DEV && <ErrorTester />}
 
       <Grid container spacing={3}>
         {demos.map((demo) => (
