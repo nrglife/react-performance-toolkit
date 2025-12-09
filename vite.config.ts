@@ -41,14 +41,15 @@ export default defineConfig({
             '@emotion/styled',
           ],
 
-          // Syntax highlighter (only used in demos)
-          'syntax-highlighter': ['react-syntax-highlighter'],
-
           // TanStack Query
           'tanstack-query': ['@tanstack/react-query'],
 
           // React Window (virtualization)
           'react-window': ['react-window'],
+
+          // Note: react-syntax-highlighter is NOT in manual chunks
+          // It's lazy loaded via React.lazy() in CodeBlock component
+          // This ensures it only loads when demo pages render
         },
 
         // Naming pattern for chunks
